@@ -4,6 +4,7 @@
 * PHP 8.2+
 * Composer
 * SQLite (for local development)
+* Symfony CLI
 
 ## ⚙️ Setup
 ```bash
