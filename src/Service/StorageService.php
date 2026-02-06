@@ -4,13 +4,8 @@ namespace App\Service;
 
 class StorageService
 {
-    protected string $request = '';
-
-    public function __construct(
-        string $request
-    )
+    public function __construct(protected string $request)
     {
-        $this->request = $request;
     }
 
     public function getRequest(): string

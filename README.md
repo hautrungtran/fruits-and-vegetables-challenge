@@ -1,5 +1,50 @@
 # 🍎🥕 Fruits and Vegetables
 
+## ✅ Prerequisites
+* PHP 8.2+
+* Composer
+* SQLite (for local development)
+
+## ⚙️ Setup
+```bash
+composer install
+cp .env .env.local
+php bin/console doctrine:database:create
+php bin/console doctrine:migrations:migrate
+php bin/console app:import-produce
+symfony serve -d
+```
+
+## ✅ Run tests
+```bash
+vendor/bin/phpunit
+```
+
+## 🧹 Code quality
+```bash
+vendor/bin/php-cs-fixer fix
+vendor/bin/rector process --dry-run
+vendor/bin/phpstan analyse --memory-limit=512M
+```
+
+## 🔌 API
+Base URL: `http://127.0.0.1:8000/api`
+
+Endpoints:
+- `GET /fruits` — list fruits, supports filters: `name`, `quantityFrom`, `quantityTo`, `unit`
+- `GET /fruits/{id}` — fetch a single fruit
+- `POST /fruits` — create a fruit
+- `DELETE /fruits/{id}` — delete a fruit
+- `GET /vegetables` — list vegetables, supports filters: `name`, `quantityFrom`, `quantityTo`, `unit`
+- `GET /vegetables/{id}` — fetch a single vegetable
+- `POST /vegetables` — create a vegetable
+- `DELETE /vegetables/{id}` — delete a vegetable
+- `POST /import` — import items from an uploaded JSON file
+
+Note: use the `unit` query param (e.g., `?unit=kg`) to convert response quantities.
+
+---
+
 ## 🎯 Goal
 We want to build a service which will take a `request.json` and:
 * Process the file and create two separate collections for `Fruits` and `Vegetables`
@@ -32,32 +77,3 @@ or
 
 ## When you are finished
 * Please upload your code to a public git repository (i.e. GitHub, Gitlab)
-
-## 🐳 Docker image
-Optional. Just here if you want to run it isolated.
-
-### 📥 Pulling image
-```bash
-docker pull tturkowski/fruits-and-vegetables
-```
-
-### 🧱 Building image
-```bash
-docker build -t tturkowski/fruits-and-vegetables -f docker/Dockerfile .
-```
-
-### 🏃‍♂️ Running container
-```bash
-docker run -it -w/app -v$(pwd):/app tturkowski/fruits-and-vegetables sh 
-```
-
-### 🛂 Running tests
-```bash
-docker run -it -w/app -v$(pwd):/app tturkowski/fruits-and-vegetables bin/phpunit
-```
-
-### ⌨️ Run development server
-```bash
-docker run -it -w/app -v$(pwd):/app -p8080:8080 tturkowski/fruits-and-vegetables php -S 0.0.0.0:8080 -t /app/public
-# Open http://127.0.0.1:8080 in your browser
-```
