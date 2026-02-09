@@ -4,32 +4,10 @@ namespace App\Tests\Controller;
 
 use App\Entity\Fruit;
 use App\Enum\Unit;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Tools\SchemaTool;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Tests\FunctionalTestCase;
 
-class FruitControllerTest extends WebTestCase
+class FruitControllerTest extends FunctionalTestCase
 {
-    private \Symfony\Bundle\FrameworkBundle\KernelBrowser $client;
-    private EntityManagerInterface $entityManager;
-
-    public static function setUpBeforeClass(): void
-    {
-        self::bootKernel();
-        $entityManager = self::getContainer()->get(EntityManagerInterface::class);
-        $metadata = $entityManager->getMetadataFactory()->getAllMetadata();
-        $schemaTool = new SchemaTool($entityManager);
-        $schemaTool->dropSchema($metadata);
-        $schemaTool->createSchema($metadata);
-        self::ensureKernelShutdown();
-    }
-
-    protected function setUp(): void
-    {
-        $this->client = self::createClient();
-        $this->entityManager = self::getContainer()->get(EntityManagerInterface::class);
-    }
-
     public function testIndexFiltersAndConvertsUnits(): void
     {
         $apple = (new Fruit())

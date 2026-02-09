@@ -1,4 +1,3 @@
 doctrine:
     dbal:
         url: 'sqlite:///:memory:'
-        use_savepoints: true

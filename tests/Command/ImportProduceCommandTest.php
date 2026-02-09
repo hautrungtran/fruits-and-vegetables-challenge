@@ -4,33 +4,12 @@ namespace App\Tests\Command;
 
 use App\Entity\Fruit;
 use App\Enum\Unit;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Tools\SchemaTool;
+use App\Tests\FunctionalTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class ImportProduceCommandTest extends KernelTestCase
+class ImportProduceCommandTest extends FunctionalTestCase
 {
-    private EntityManagerInterface $entityManager;
-
-    protected function setUp(): void
-    {
-        self::bootKernel();
-        $this->entityManager = self::getContainer()->get(EntityManagerInterface::class);
-    }
-
-    public static function setUpBeforeClass(): void
-    {
-        self::bootKernel();
-        $entityManager = self::getContainer()->get(EntityManagerInterface::class);
-        $metadata = $entityManager->getMetadataFactory()->getAllMetadata();
-        $schemaTool = new SchemaTool($entityManager);
-        $schemaTool->dropSchema($metadata);
-        $schemaTool->createSchema($metadata);
-        self::ensureKernelShutdown();
-    }
-
     public function testCommandImportsRequestJson(): void
     {
         $application = new Application(self::$kernel);

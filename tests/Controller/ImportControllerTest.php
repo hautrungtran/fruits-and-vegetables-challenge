@@ -4,34 +4,11 @@ namespace App\Tests\Controller;
 
 use App\Entity\Fruit;
 use App\Enum\Unit;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Tools\SchemaTool;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Tests\FunctionalTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class ImportControllerTest extends WebTestCase
+class ImportControllerTest extends FunctionalTestCase
 {
-    private KernelBrowser $client;
-    private EntityManagerInterface $entityManager;
-
-    public static function setUpBeforeClass(): void
-    {
-        self::bootKernel();
-        $entityManager = self::getContainer()->get(EntityManagerInterface::class);
-        $metadata = $entityManager->getMetadataFactory()->getAllMetadata();
-        $schemaTool = new SchemaTool($entityManager);
-        $schemaTool->dropSchema($metadata);
-        $schemaTool->createSchema($metadata);
-        self::ensureKernelShutdown();
-    }
-
-    protected function setUp(): void
-    {
-        $this->client = self::createClient();
-        $this->entityManager = self::getContainer()->get(EntityManagerInterface::class);
-    }
-
     public function testImportCreatesEntitiesFromUpload(): void
     {
         $sourceFile = dirname(__DIR__, 2).'/request.json';
